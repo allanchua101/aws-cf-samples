@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: "AWS::Serverless-2016-10-31"
+Description: >
+  Sample CloudFormation stack used for provisioning SQS queues with all defaults and a basic templated name.
+
+Parameters:
+  AppName:
+    Type: String
+    Default: "pogsapp"
+    Description: "Application name"
+    AllowedPattern: ".+"
+
+  Environment:
+    Type: String
+    Description: "Environment code of deployment (dev, uat, prod)"
+    AllowedPattern: ".+"
+    AllowedValues:
+      - "dev"
+      - "uat"
+      - "prod"
+
+#  ____
+# |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___
+# | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+# |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+# |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+
+Resources:
+  DemoAppSQS:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName:
+        !Join [
+          "-",
+          [!Ref AppName, !Ref Environment, "demo-queue"],
+        ]
