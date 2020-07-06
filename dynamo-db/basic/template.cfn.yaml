@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Cloud formation stack for provisioning a basic DynamoDB table.
+Parameters:
+  AppName:
+    Type: String
+    Description: "Name of application."
+    AllowedPattern: ".+"
+    Default: "pogsapp"
+
+  Environment:
+    Type: String
+    Description: "Environment code of deployment (dev, uat, prod)"
+    AllowedPattern: ".+"
+    AllowedValues:
+      - "dev"
+      - "uat"
+      - "prod"
+
+#  ____
+# |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___
+# | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+# |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+# |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+
+Resources:
+  SampleTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        !Join [
+          "-",
+          [!Ref AppName, !Ref Environment, "sample-table"],
+        ]
+      BillingMode: PAY_PER_REQUEST
+      SSESpecification:
+        SSEEnabled: true
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
