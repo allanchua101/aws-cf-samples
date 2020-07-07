@@ -10,3 +10,7 @@ A collection of AWS Cloud Formation templates that an AWS professional would nee
 
 - [Basic](https://github.com/allanchua101/aws-cf-samples/tree/master/sqs/basic)
 - [Tags](https://github.com/allanchua101/aws-cf-samples/tree/master/sqs/tags)
+
+## DynamoDB
+
+- [Basic](https://github.com/allanchua101/aws-cf-samples/tree/master/dynamo-db/basic)
