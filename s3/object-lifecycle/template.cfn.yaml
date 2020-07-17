@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Cloud formation stack for managing an S3 bucket with object lifecycle management. 
+  The cloud formation stack supports 3 environments (dev, uat, prod).
+Parameters:
+  AppName:
+    Type: String
+    Description: "Name of application."
+    AllowedPattern: ".+"
+    Default: "pogsapp"
+
+  Environment:
+    Type: String
+    Description: "Environment code of deployment (dev, uat, prod)"
+    AllowedPattern: ".+"
+    AllowedValues:
+      - "dev"
+      - "uat"
+      - "prod"
+
+#  ____
+# |  _ \ ___  ___  ___  _   _ _ __ ___ ___  ___
+# | |_) / _ \/ __|/ _ \| | | | '__/ __/ _ \/ __|
+# |  _ <  __/\__ \ (_) | |_| | | | (_|  __/\__ \
+# |_| \_\___||___/\___/ \__,_|_|  \___\___||___/
+
+Resources:
+  EncryptedFileStore:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: 
+        !Join [
+          "-",
+          [!Ref AppName, !Ref Environment, "encrypted-file-store"],
+        ]
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteContentAfter90Days
+            Status: 'Enabled'
+            ExpirationInDays: 90
+      Tags:
+        - Key: "ENVIRONMENT"
+          Value: !Ref Environment
+        - Key: "APP"
+          Value: !Ref AppName
