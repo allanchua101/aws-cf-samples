@@ -31,7 +31,7 @@ Resources:
       BucketName: 
         !Join [
           "-",
-          [!Ref AppName, !Ref Environment, "encrypted-file-store"],
+          [!Ref AppName, !Ref Environment, "object-lifecycle-demo"],
         ]
       LifecycleConfiguration:
         Rules:
